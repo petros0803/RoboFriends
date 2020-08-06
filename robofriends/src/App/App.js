@@ -3,6 +3,7 @@ import CardList from '../Card/CardList';
 import SearchBox from '../SearchBox/SearchBox'
 import './app.css'
 import Scroll from '../SearchBox/Scroll'
+import ErrorBoundry from '../ErrorBoundry/ErrorBoundry';
 
 class App extends Component {
     constructor(){
@@ -28,7 +29,7 @@ class App extends Component {
             return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
         })
         if(this.state.robots.length === 0) {
-            return <p className = "f1 tc light-blue">Stay tuned, we are loading the page for you!</p>
+            return <p className = "f1 tc light-red">Stay tuned, we are loading the page for you!</p>
         }
         else{
             return (
@@ -38,9 +39,11 @@ class App extends Component {
                     <Scroll>
                         {
                         (filteredRobots.length === 0) &&
-                        <p className = "f1 light-blue">No robots were found! Try again.</p>
+                        <p className = "f2 light-red font">No robots were found! Try again.</p>
                         }
-                        <CardList robots = {filteredRobots}/>  
+                        <ErrorBoundry>
+                            <CardList robots = {filteredRobots}/>
+                        </ErrorBoundry>
                     </Scroll>  
                 </div>
             );
